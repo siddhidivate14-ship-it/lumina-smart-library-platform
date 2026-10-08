@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Members · Lumina Library{% endblock %}
+{% block page_heading %}Library members{% endblock %}
+{% block content %}
+<div class="section-heading"><div><span class="eyebrow">PEOPLE</span><h3>Member directory</h3></div><a class="btn-primary-lumina" href="{{ url_for('members.add') }}"><i class="bi bi-person-plus"></i> Add member</a></div>
+<form class="filter-bar"><div class="search-input"><i class="bi bi-search"></i><input name="q" value="{{ q }}" placeholder="Search name, member ID or email..."></div><button class="btn-filter">Search</button></form>
+<div class="table-card"><table class="table modern-table mb-0"><thead><tr><th>Member</th><th>Member ID</th><th>Department</th><th>Contact</th><th>Status</th></tr></thead><tbody>
+{% for m in members %}<tr><td><div class="person"><div class="avatar small">{{ m.name[0]|upper }}</div><strong>{{ m.name }}</strong></div></td><td>{{ m.member_code }}</td><td>{{ m.department or '—' }}</td><td>{{ m.email }}<small>{{ m.phone or '' }}</small></td><td><span class="badge-soft success">{{ m.status }}</span></td></tr>
+{% else %}<tr><td colspan="5" class="empty-state">No members found.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

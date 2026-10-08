@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Overview · Lumina Library{% endblock %}
+{% block page_heading %}Good evening, {{ current_user.name.split()[0] }} <span class="wave">✦</span>{% endblock %}
+{% block content %}
+<div class="hero-banner">
+  <div><span class="eyebrow">TODAY'S COMMAND CENTER</span><h2>Know your library at a glance.</h2><p>Monitor inventory, circulation and member activity from one place.</p></div>
+  <a href="{{ url_for('books.add') }}" class="btn-light-lumina"><i class="bi bi-plus-lg"></i> Add a book</a>
+</div>
+
+<div class="stats-grid mt-4">
+  <div class="stat-card"><div class="stat-icon purple"><i class="bi bi-bookshelf"></i></div><span>Total copies</span><strong>{{ total_books }}</strong><small><i class="bi bi-arrow-up"></i> Collection size</small></div>
+  <div class="stat-card"><div class="stat-icon green"><i class="bi bi-bookmark-check"></i></div><span>Available now</span><strong>{{ available_books }}</strong><small>Ready to borrow</small></div>
+  <div class="stat-card"><div class="stat-icon blue"><i class="bi bi-people"></i></div><span>Members</span><strong>{{ total_members }}</strong><small>Active readers</small></div>
+  <div class="stat-card"><div class="stat-icon orange"><i class="bi bi-clock-history"></i></div><span>Overdue</span><strong>{{ overdue }}</strong><small>Needs attention</small></div>
+</div>
+
+<div class="section-heading mt-5"><div><span class="eyebrow">RECENT ACTIVITY</span><h3>Latest circulation</h3></div><a href="{{ url_for('loans.index') }}" class="text-link">View all <i class="bi bi-arrow-right"></i></a></div>
+<div class="table-card">
+<table class="table modern-table mb-0"><thead><tr><th>Book</th><th>Member</th><th>Issued</th><th>Due</th><th>Status</th></tr></thead>
+<tbody>
+{% for loan in recent_loans %}
+<tr><td><strong>{{ loan.book.title }}</strong><small>{{ loan.book.author }}</small></td><td>{{ loan.member.name }}</td><td>{{ loan.issue_date.strftime('%d %b %Y') }}</td><td>{{ loan.due_date.strftime('%d %b %Y') }}</td><td><span class="badge-soft {{ 'danger' if loan.status == 'Issued' and loan.due_date < today else 'success' }}">{{ 'Overdue' if loan.status == 'Issued' and loan.due_date < today else loan.status }}</span></td></tr>
+{% else %}<tr><td colspan="5" class="empty-state">No circulation activity yet. Issue your first book to get started.</td></tr>{% endfor %}
+</tbody></table>
+</div>
+{% endblock %}

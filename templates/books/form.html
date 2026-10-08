@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Add Book · Lumina Library{% endblock %}
+{% block page_heading %}Add a book{% endblock %}
+{% block content %}
+<div class="form-card">
+<span class="eyebrow">COLLECTION MANAGEMENT</span><h3>Add a new title</h3><p class="muted">Create a complete catalogue record for your library.</p>
+<form method="post" class="row g-3 mt-2">
+<div class="col-md-8"><label>Title *</label><input name="title" required placeholder="e.g. The Design of Everyday Things"></div>
+<div class="col-md-4"><label>Author *</label><input name="author" required placeholder="Author name"></div>
+<div class="col-md-4"><label>ISBN *</label><input name="isbn" required placeholder="978..."></div>
+<div class="col-md-4"><label>Category *</label><input name="category" value="General" required></div>
+<div class="col-md-4"><label>Year</label><input type="number" name="year" min="1000" max="2100"></div>
+<div class="col-md-6"><label>Publisher</label><input name="publisher"></div>
+<div class="col-md-3"><label>Quantity *</label><input type="number" name="quantity" value="1" min="1" required></div>
+<div class="col-md-3"><label>Cover URL</label><input name="cover_url" placeholder="https://..."></div>
+<div class="col-12 d-flex gap-2 mt-4"><button class="btn-primary-lumina">Save book <i class="bi bi-check-lg"></i></button><a href="{{ url_for('books.index') }}" class="btn-outline-lumina">Cancel</a></div>
+</form></div>
+{% endblock %}

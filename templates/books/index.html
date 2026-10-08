@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Collection · Lumina Library{% endblock %}
+{% block page_heading %}Book collection{% endblock %}
+{% block content %}
+<div class="section-heading"><div><span class="eyebrow">CATALOGUE</span><h3>Your collection</h3></div><a class="btn-primary-lumina" href="{{ url_for('books.add') }}"><i class="bi bi-plus-lg"></i> Add book</a></div>
+<form class="filter-bar" method="get"><div class="search-input"><i class="bi bi-search"></i><input name="q" value="{{ q }}" placeholder="Search title, author or ISBN..."></div><select name="category"><option value="">All categories</option>{% for c in categories %}<option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>{% endfor %}</select><button class="btn-filter">Filter</button></form>
+<div class="book-grid">
+{% for book in books %}
+<div class="book-card">
+  <div class="book-cover">{% if book.cover_url %}<img src="{{ book.cover_url }}" alt="{{ book.title }}">{% else %}<i class="bi bi-book"></i>{% endif %}<span>{{ book.category }}</span></div>
+  <div class="book-info"><h4>{{ book.title }}</h4><p>{{ book.author }}</p><div class="book-meta"><span>ISBN {{ book.isbn }}</span><strong>{{ book.available }}/{{ book.quantity }} available</strong></div></div>
+</div>
+{% else %}<div class="empty-state wide">No books found. Add your first book.</div>{% endfor %}
+</div>
+{% endblock %}

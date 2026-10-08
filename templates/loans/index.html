@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Circulation · Lumina Library{% endblock %}
+{% block page_heading %}Book circulation{% endblock %}
+{% block content %}
+<div class="section-heading"><div><span class="eyebrow">CIRCULATION DESK</span><h3>Issue & return</h3></div></div>
+<div class="split-grid">
+<div class="form-card"><span class="eyebrow">NEW LOAN</span><h4>Issue a book</h4><form method="post" action="{{ url_for('loans.issue') }}" class="mt-3">
+<label>Book</label><select name="book_id" required><option value="">Select available book</option>{% for b in books %}<option value="{{ b.id }}">{{ b.title }} — {{ b.available }} available</option>{% endfor %}</select>
+<label class="mt-3">Member</label><select name="member_id" required><option value="">Select member</option>{% for m in members %}<option value="{{ m.id }}">{{ m.name }} · {{ m.member_code }}</option>{% endfor %}</select>
+<label class="mt-3">Loan period</label><select name="days"><option value="7">7 days</option><option value="14" selected>14 days</option><option value="21">21 days</option><option value="30">30 days</option></select>
+<button class="btn-primary-lumina w-100 mt-4">Issue book <i class="bi bi-arrow-right"></i></button></form></div>
+<div class="table-card"><div class="card-header-custom"><div><span class="eyebrow">LIVE LEDGER</span><h4>Loan history</h4></div><span class="count-pill">{{ loans|length }} records</span></div>
+<div class="table-responsive"><table class="table modern-table mb-0"><thead><tr><th>Book / Member</th><th>Due</th><th>Status</th><th></th></tr></thead><tbody>
+{% for loan in loans %}<tr><td><strong>{{ loan.book.title }}</strong><small>{{ loan.member.name }}</small></td><td>{{ loan.due_date.strftime('%d %b') }}</td><td><span class="badge-soft {{ 'danger' if loan.status == 'Issued' and loan.due_date < today else ('success' if loan.status == 'Returned' else 'blue') }}">{{ 'Overdue' if loan.status == 'Issued' and loan.due_date < today else loan.status }}</span></td><td>{% if loan.status == 'Issued' %}<form method="post" action="{{ url_for('loans.return_book', loan_id=loan.id) }}"><button class="btn-sm-lumina">Return</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="4" class="empty-state">No loans yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+</div>
+{% endblock %}

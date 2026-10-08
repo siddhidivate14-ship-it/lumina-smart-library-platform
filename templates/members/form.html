@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Add Member · Lumina Library{% endblock %}
+{% block page_heading %}Register member{% endblock %}
+{% block content %}
+<div class="form-card"><span class="eyebrow">MEMBER MANAGEMENT</span><h3>Create member profile</h3><form method="post" class="row g-3 mt-2">
+<div class="col-md-4"><label>Member ID *</label><input name="member_code" placeholder="LIB-2026-001" required></div>
+<div class="col-md-8"><label>Full name *</label><input name="name" required></div>
+<div class="col-md-6"><label>Email *</label><input type="email" name="email" required></div>
+<div class="col-md-6"><label>Phone</label><input name="phone"></div>
+<div class="col-md-6"><label>Department</label><input name="department"></div>
+<div class="col-12 mt-4"><button class="btn-primary-lumina">Register member <i class="bi bi-check-lg"></i></button></div>
+</form></div>
+{% endblock %}
